@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your posts for approval — Manzuri</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="client-page">
+<header class="topbar">
+  <div class="brand">Manzuri</div>
+  <p class="tagline" id="clientHello">Loading your posts…</p>
+</header>
+<main>
+  <p class="muted intro">These are the posts your agency has prepared. Tap <strong>Approve</strong> if a post is good to go. If something needs fixing, tap <strong>Request changes</strong> and tell them what. Nothing gets posted without your approval.</p>
+  <div id="clientPosts" class="client-posts"></div>
+  <p id="clientDone" class="done-note" hidden>All settled. Your agency can see your answers. If they change any post after your approval, it will come back here for a fresh look.</p>
+</main>
+<script src="/static/client.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manzuri — client approvals without the WhatsApp archaeology</title>
+<meta name="description" content="Upload a client's posts once. They approve from one link inside WhatsApp — no login. Every decision is timestamped, and editing a post voids its approval, so the wrong version never goes out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Manzuri</div>
+  <p class="tagline">Client approvals, settled in one link.</p>
+</header>
+
+<main>
+  <section class="console" aria-label="Agency console">
+    <div class="row">
+      <form id="clientForm" class="card grow">
+        <h2>New client</h2>
+        <div class="inline">
+          <input id="clientName" type="text" placeholder="Client name — e.g. Sharma Sweets" required>
+          <button class="primary" type="submit">Create + get link</button>
+        </div>
+        <p class="muted small">Each client gets one private link. Send it in the WhatsApp chat you already have with them. No login, no app, no password.</p>
+      </form>
+      <div class="card counts">
+        <h2>This month, all clients</h2>
+        <p class="big-counts"><span id="countWaiting">–</span> waiting · <span id="countApproved" class="green">–</span> approved · <span id="countChanges" class="red">–</span> changes asked</p>
+      </div>
+    </div>
+
+    <div id="clientList" class="client-list"></div>
+
+    <div id="clientPanel" hidden>
+      <div class="panel-head">
+        <h2 id="panelTitle">Client</h2>
+        <div class="inline">
+          <input id="linkBox" type="text" readonly aria-label="Client approval link">
+          <button id="copyLink" type="button">Copy link</button>
+          <a id="waSend" class="wa" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
+          <a id="exportLink" class="ghostbtn" href="#" download>Approved-only checklist</a>
+        </div>
+      </div>
+
+      <canvas id="wall" aria-label="Month wall: one tile per post. Flat and green is approved, upright is waiting, tilted red is changes requested."></canvas>
+
+      <form id="postForm" class="card">
+        <h3>Add a post</h3>
+        <div class="inline wrap">
+          <input id="postDay" type="text" placeholder="Day — e.g. Mon 1 Dec" required>
+          <input id="postCaption" type="text" placeholder="Caption the client will see">
+          <label class="filebtn">Creative image <input id="postImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+          <button class="primary" type="submit">Add post</button>
+        </div>
+      </form>
+
+      <div id="postList" class="post-list"></div>
+    </div>
+  </section>
+
+  <section class="story">
+    <h2>The problem</h2>
+    <p>If you run social media for small businesses, you know this scene. The posts go into a WhatsApp group as screenshots. Feedback comes back as voice notes and circled images, buried under tomorrow's chat. A week later nobody can say which version the client actually approved — and the wrong one goes out. The tools that fix this charge per client: Planable's own help page lists <strong>$39 per workspace per month</strong>, and the "required approval" setting only starts at the $59 plan. A five-client micro-agency pays agency-sized money for one small feature. On G2, a verified small-business reviewer says of Sprout Social — $79 a seat — that it has <strong>no way to seek client approval inside the platform at all</strong>, so the team builds the calendar in one tool and schedules by hand in another.</p>
+
+    <h2>What Manzuri does instead</h2>
+    <p>One link per client, sent where the conversation already lives. The client opens it on their phone — no account, no password — sees the month's posts in order, and taps <strong>Approve</strong> or <strong>Request changes</strong> (with one structured question: the image, the caption, or both?). Every decision is stamped with its time and locked to the version they saw. <strong>If you edit a post after approval, the approval is voided</strong> — visibly, with the history kept — so an approved version can never quietly become a different post. When the month is done, one click exports the checklist of only-approved posts, ready to schedule.</p>
+
+    <h2>Honest limits</h2>
+    <ul class="limits">
+      <li><strong>No auto-posting.</strong> Manzuri ends at approval + checklist. Publishing still happens in your scheduler — that is deliberate: social-platform posting permissions are a separate, heavier gate.</li>
+      <li><strong>The link is the key.</strong> Anyone holding a client's link can approve as that client. Links are long and unguessable; treat them like keys, one per client.</li>
+      <li><strong>Built for micro-agencies.</strong> A handful of clients, a month of posts at a time. Not a media-buying suite, not analytics.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>Built by M S Abhishek. Problem evidence: Planable pricing help page and G2 Sprout Social reviews, read Nov 2026.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.152.2/three.min.js"></script>
+<script src="/static/wall3d.js"></script>
+<script src="/static/console.js"></script>
+</body>
+</html>
