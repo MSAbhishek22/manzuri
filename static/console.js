@@ -41,12 +41,46 @@
         var fresh = clients.filter(function (c) { return c.id === current.id; })[0];
         if (fresh) current = fresh;
       }
+      return clients;
     });
+  }
+
+  /* Clearly-labelled demo month, shown only when no real client
+     exists yet — so the Month Wall is visible on first load instead
+     of waiting behind a client pick. Demo posts never touch the
+     store; creating a client switches to real data. */
+  var DEMO_POSTS = [
+    { id: "demo-1", day_label: "Mon 1 Dec", status: "approved", version: 1, caption: "Festive offer poster — 20% off all sweets this week." },
+    { id: "demo-2", day_label: "Tue 2 Dec", status: "approved", version: 1, caption: "Behind the counter: morning batch of kaju katli." },
+    { id: "demo-3", day_label: "Wed 3 Dec", status: "pending", version: 1, caption: "New winter menu — hot jalebi with rabri." },
+    { id: "demo-4", day_label: "Thu 4 Dec", status: "pending", version: 1, caption: "Customer photo of the week — thank you, Sharma family." },
+    { id: "demo-5", day_label: "Fri 5 Dec", status: "changes", version: 2, caption: "Weekend combo deal — please check the price in the image." },
+    { id: "demo-6", day_label: "Sat 6 Dec", status: "pending", version: 1, caption: "Shop timings for the festival week." },
+    { id: "demo-7", day_label: "Sun 7 Dec", status: "approved", version: 1, caption: "Sunday special: fresh ghewar, made at 6 in the morning." },
+    { id: "demo-8", day_label: "Mon 8 Dec", status: "pending", version: 1, caption: "Gift boxes are back — three sizes, one price each." },
+    { id: "demo-9", day_label: "Tue 9 Dec", status: "changes", version: 1, caption: "Staff introduction — meet Ritu, our head of packing." },
+    { id: "demo-10", day_label: "Wed 10 Dec", status: "pending", version: 1, caption: "Order ahead on WhatsApp and skip the queue." }
+  ];
+
+  function showDemoMonth() {
+    current = null;
+    $("clientPanel").hidden = false;
+    $("panelTitle").textContent = "Demo month — sample posts";
+    $("demoNote").hidden = false;
+    $("panelLinks").hidden = true;
+    $("postForm").hidden = true;
+    wall.setPosts(DEMO_POSTS);
+    var list = $("postList");
+    list.innerHTML = "";
+    DEMO_POSTS.forEach(function (post) { list.appendChild(postCard(post, true)); });
   }
 
   function openClient(client) {
     current = client;
     $("clientPanel").hidden = false;
+    $("demoNote").hidden = true;
+    $("panelLinks").hidden = false;
+    $("postForm").hidden = false;
     $("panelTitle").textContent = client.name;
     var link = location.origin + "/c/" + client.token;
     $("linkBox").value = link;
@@ -72,7 +106,7 @@
     }).catch(showError);
   }
 
-  function postCard(post) {
+  function postCard(post, demo) {
     var card = document.createElement("div"); card.className = "post-card"; card.id = "post-" + post.id;
     if (post.image_name) {
       var img = document.createElement("img");
@@ -87,6 +121,8 @@
       : post.status === "changes" ? "Changes requested" : "Waiting · v" + post.version;
     head.appendChild(day); head.appendChild(chip);
     var cap = document.createElement("p"); cap.textContent = post.caption || "(no caption)";
+    /* Demo cards have no Edit action: there is no real post to edit. */
+    if (demo) { main.appendChild(head); main.appendChild(cap); card.appendChild(main); return card; }
     var actions = document.createElement("div"); actions.className = "post-actions";
     var editBtn = document.createElement("button"); editBtn.type = "button"; editBtn.textContent = "Edit post";
     editBtn.addEventListener("click", function () { showEdit(post, main); });
@@ -154,5 +190,10 @@
     setTimeout(function () { $("copyLink").textContent = "Copy link"; }, 1500);
   });
 
-  refreshClients().catch(showError);
+  /* First load: the wall must already be standing — open the first
+     real client if one exists, else the labelled demo month. */
+  refreshClients().then(function (clients) {
+    if (clients && clients.length) openClient(clients[0]);
+    else showDemoMonth();
+  }).catch(showError);
 })();

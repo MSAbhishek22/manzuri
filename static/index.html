@@ -16,7 +16,13 @@
 </header>
 
 <main>
-  <section class="console" aria-label="Agency console">
+  <section class="hero" aria-label="What this is">
+    <h1>Client approvals, settled in one link.</h1>
+    <p class="hero-sub">Upload a client's posts once. They approve from one link inside WhatsApp — no login, no app, no password. Every decision is timestamped, and editing a post voids its approval, so the wrong version never goes out.</p>
+    <a class="scroll-cue" href="#console">See the console <span aria-hidden="true">↓</span></a>
+  </section>
+
+  <section class="console" id="console" aria-label="Agency console">
     <div class="row">
       <form id="clientForm" class="card grow">
         <h2>New client</h2>
@@ -37,7 +43,7 @@
     <div id="clientPanel" hidden>
       <div class="panel-head">
         <h2 id="panelTitle">Client</h2>
-        <div class="inline">
+        <div class="inline" id="panelLinks">
           <input id="linkBox" type="text" readonly aria-label="Client approval link">
           <button id="copyLink" type="button">Copy link</button>
           <a id="waSend" class="wa" href="#" target="_blank" rel="noopener">Send on WhatsApp</a>
@@ -45,6 +51,7 @@
         </div>
       </div>
 
+      <p id="demoNote" class="muted" hidden>Demo month — sample posts, so you can see the wall before you add a client. Create a client above to start your own month.</p>
       <canvas id="wall" aria-label="Month wall: one tile per post. Flat and green is approved, upright is waiting, tilted red is changes requested."></canvas>
 
       <form id="postForm" class="card">
@@ -67,6 +74,9 @@
 
     <h2>What Manzuri does instead</h2>
     <p>One link per client, sent where the conversation already lives. The client opens it on their phone — no account, no password — sees the month's posts in order, and taps <strong>Approve</strong> or <strong>Request changes</strong> (with one structured question: the image, the caption, or both?). Every decision is stamped with its time and locked to the version they saw. <strong>If you edit a post after approval, the approval is voided</strong> — visibly, with the history kept — so an approved version can never quietly become a different post. When the month is done, one click exports the checklist of only-approved posts, ready to schedule.</p>
+
+    <h2>The outcome</h2>
+    <p>The month ends with a checklist of only-approved posts, ready to schedule — and a record of every decision, so nobody has to dig through the chat to prove which version the client said yes to.</p>
 
     <h2>Honest limits</h2>
     <ul class="limits">

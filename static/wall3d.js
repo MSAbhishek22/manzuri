@@ -33,6 +33,9 @@
   MonthWall.prototype.setPosts = function (posts) {
     this.posts = posts || [];
     if (!this.renderer) return;
+    /* The canvas starts inside a hidden panel, so its size at
+       construction time is 0 — re-measure now that it is visible. */
+    this._resize();
     while (this.group.children.length) {
       var c = this.group.children.pop();
       if (c.geometry) c.geometry.dispose();
